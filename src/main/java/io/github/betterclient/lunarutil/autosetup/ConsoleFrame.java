@@ -3,6 +3,7 @@ package io.github.betterclient.lunarutil.autosetup;
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 import java.awt.*;
+import java.io.FileWriter;
 import java.io.PrintStream;
 
 import static javax.swing.text.DefaultCaret.ALWAYS_UPDATE;
@@ -13,7 +14,8 @@ public class ConsoleFrame extends JFrame {
     private JTextArea textArea = new JTextArea(15, 30);
     private Console taOutputStream = new Console(textArea);
 
-    public ConsoleFrame() {
+    public ConsoleFrame(FileWriter fileWriter) {
+        taOutputStream.setWriter(fileWriter);
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         DefaultCaret caret = (DefaultCaret) textArea.getCaret();

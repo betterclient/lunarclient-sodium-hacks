@@ -1,12 +1,14 @@
 package io.github.betterclient.lunarutil.autosetup;
 
 import javax.swing.*;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 
 public class Console extends OutputStream {
     private final JTextArea textArea;
     private final StringBuilder sb = new StringBuilder();
+    private FileWriter writer;
 
     public Console(final JTextArea textArea) {
         this.textArea = textArea;
@@ -22,7 +24,7 @@ public class Console extends OutputStream {
 
     @Override
     public void write(int b) throws IOException {
-
+        writer.write(b);
         if (b == '\r')
             return;
 
@@ -34,5 +36,9 @@ public class Console extends OutputStream {
         }
 
         sb.append((char) b);
+    }
+
+    public void setWriter(FileWriter fileWriter) {
+        this.writer = fileWriter;
     }
 }

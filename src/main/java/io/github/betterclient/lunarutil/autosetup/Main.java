@@ -1,31 +1,46 @@
 package io.github.betterclient.lunarutil.autosetup;
 
-import java.awt.*;
+import javax.swing.*;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Arrays;
+import java.io.FileWriter;
+import java.io.Writer;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        new ConsoleFrame();
-        var f = args.length > 0 ? new File(args[0]) : selectFile();
+        var logs = new File(new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent().concat(File.separator + "logs"+ System.currentTimeMillis() + ".txt"));
+        if(!logs.createNewFile()) {
+            if(!logs.delete()) System.exit(0);
+            if(!logs.createNewFile()) System.exit(0);
+        }
+        new ConsoleFrame(new FileWriter(logs));
+
+        var f = new File(System.getProperty("user.home") + "/.lunarclient/offline/multiver/Sodium_v1_19_2.jar");
+        System.out.println("Found Sodium Jar" + f.getAbsolutePath());
         var jar = new JarFile(f);
 
-        var ff = new File(f.getParent() + File.separator + "overrides" + File.separator + "Sodium_v1_19_2.jar");
-        System.out.println(ff.getAbsolutePath());
+        var ff = new File(f.getParent() + File.separator + "overrides" + File.separator + (f.getAbsolutePath().substring(f.getParent().length() + 1)));
+        System.out.println("Creating Override: " + ff.getAbsolutePath());
         if(!ff.createNewFile()) {
             System.out.println("[ERROR] Already Installed");
-            System.exit(0);
+            var result = JOptionPane.showConfirmDialog(null, "Overwrite the existing one?", "File already exists.", JOptionPane.YES_NO_OPTION);
+            if(result == JOptionPane.YES_OPTION) {
+                if(!ff.delete()) System.exit(0);
+                if(!ff.createNewFile()) System.exit(0);
+            } else {
+                System.exit(0);
+            }
         }
 
         var outJar = new JarOutputStream(new FileOutputStream(ff));
-
+        AtomicBoolean modifiedFabric = new AtomicBoolean(false);
         appendEntries(jar, outJar, (original, name) -> {
             if(!name.equals("fabric.mod.json"))
                 return original;
-
+            modifiedFabric.set(true);
             var text = new String(original);
             int startIndex = text.indexOf("\"client\": [");
             int endIndex = text.indexOf("],", startIndex);
@@ -34,8 +49,14 @@ public class Main {
 
             return text.getBytes();
         }, f);
+
+        if(!modifiedFabric.get()) {
+            System.out.println("[ERROR] Isn't a fabric mod!?");
+        }
+
         Thread.sleep(500);
         var fff = new JarFile(new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
+        System.out.println("Asserting Injection Data: " + fff.getName());
 
         appendEntries(fff, outJar, (original, name) -> {
 
@@ -51,21 +72,6 @@ public class Main {
         System.out.println("Loading utility client done!");
         Thread.sleep(500);
         System.exit(0);
-    }
-
-    private static File selectFile() {
-        var fd = new FileDialog(new Frame("penis"));
-        fd.setVisible(true);
-        fd.setAlwaysOnTop(true);
-        fd.setFilenameFilter((file, s) -> s.equals("Sodium_v1_19_2.jar"));
-        String str = fd.getFile();
-
-        if (str == null) {
-            System.exit(0);
-            throw new RuntimeException("System.exit(0) returned, this shouldn't happen!");
-        } else {
-            return new File(fd.getDirectory() + str);
-        }
     }
 
     private static void appendEntries(JarFile from, JarOutputStream to, ByteEditor editor, File from1) throws Exception {
