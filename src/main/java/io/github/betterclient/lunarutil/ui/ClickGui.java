@@ -1,6 +1,5 @@
 package io.github.betterclient.lunarutil.ui;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.betterclient.lunarutil.ModMan;
 import io.github.betterclient.lunarutil.mod.Module;
@@ -38,19 +37,19 @@ public class ClickGui extends Screen {
 
         if(this.shouldLookForKey) {
             poseStack.pushPose();
-            poseStack.scale(2f, 2f, 1f);
+            poseStack.scale(1.5f, 1.5f, 1f);
             this.minecraft.font.draw(poseStack, "Please click a button on your keyboard to set keybind", 10, height / 2 - 4, -1);
             poseStack.popPose();
         } else {
             this.minecraft.font.draw(poseStack, "Left Click To Toggle", 0, height - 20, -1);
             this.minecraft.font.draw(poseStack, "Middle Click To Select KeyBind", 0, height - 10, -1);
 
-            Gui.fill(poseStack, width / 2 - 50, height / 2 - 50, width / 2 + 50, height / 2 + 50, -1);
+            Gui.fill(poseStack, width / 2 - 250, height / 2 - 250, width / 2 + 250, height / 2 + 250, -1);
 
-            int y = height / 2 - 50;
+            int y = height / 2 - 250;
             for(Module mod : ModMan.getModules()) {
                 y+=13;
-                Gui.fill(poseStack, width / 2 - 50, y, width / 2 + 50, y + 10, mod.enabled ? modEnabledColor : modDisabledColor);
+                Gui.fill(poseStack, width / 2 - 250, y, width / 2 + 250, y + 10, mod.enabled ? modEnabledColor : modDisabledColor);
                 this.minecraft.font.draw(poseStack, mod.name, width / 2 - 40, y + 1, blackColor);
             }
         }
@@ -71,12 +70,12 @@ public class ClickGui extends Screen {
     @Override
     @SuppressWarnings("all")
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        int y = height / 2 - 50;
+        int y = height / 2 - 250;
         for(Module mod : ModMan.getModules()) {
             y+=13;
 
             if(mouseY >= y && mouseY <= (y + 10)) {
-                if(mouseX >= ((int)(width / 2 - 50)) && mouseX <= (width / 2 + 50)) {
+                if(mouseX >= ((int)(width / 2 - 250)) && mouseX <= (width / 2 + 250)) {
                     if(button == 0)
                         mod.toggle();
                     if(button == 2) {
