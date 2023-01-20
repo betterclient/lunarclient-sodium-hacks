@@ -58,13 +58,7 @@ public class Main {
         var fff = new JarFile(new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
         System.out.println("Asserting Injection Data: " + fff.getName());
 
-        appendEntries(fff, outJar, (original, name) -> {
-
-            if(name.startsWith("io/github/betterclient/lunarutil/") || name.equals("injected.mixins.json"))
-                return original;
-
-            return null;
-        }, new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
+        appendEntries(fff, outJar, (original, name) -> original, new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
 
         fff.close();
         outJar.close();
