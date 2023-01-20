@@ -35,6 +35,7 @@ dependencies {
 			"fabric-networking-api-v1",
 			"fabric-renderer-api-v1",
 			"fabric-rendering-fluids-v1",
+			"fabric-rendering-v1",
 			"fabric-rendering-data-attachment-v1",
 			"fabric-resource-loader-v0",
 			"fabric-textures-v0"
