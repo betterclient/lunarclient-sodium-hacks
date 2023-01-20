@@ -4,17 +4,16 @@ import javax.swing.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.Writer;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        var logs = new File(new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent().concat(File.separator + "logs"+ System.currentTimeMillis() + ".txt"));
-        if(!logs.createNewFile()) {
-            if(!logs.delete()) System.exit(0);
-            if(!logs.createNewFile()) System.exit(0);
+        var logs = new File(new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent().concat(File.separator + "logs" + System.currentTimeMillis() + ".txt"));
+        if (!logs.createNewFile()) {
+            if (!logs.delete()) System.exit(0);
+            if (!logs.createNewFile()) System.exit(0);
         }
         new ConsoleFrame(new FileWriter(logs));
 
@@ -24,12 +23,12 @@ public class Main {
 
         var ff = new File(f.getParent() + File.separator + "overrides" + File.separator + (f.getAbsolutePath().substring(f.getParent().length() + 1)));
         System.out.println("Creating Override: " + ff.getAbsolutePath());
-        if(!ff.createNewFile()) {
+        if (!ff.createNewFile()) {
             System.out.println("[ERROR] Already Installed");
             var result = JOptionPane.showConfirmDialog(null, "Overwrite the existing one?", "File already exists.", JOptionPane.YES_NO_OPTION);
-            if(result == JOptionPane.YES_OPTION) {
-                if(!ff.delete()) System.exit(0);
-                if(!ff.createNewFile()) System.exit(0);
+            if (result == JOptionPane.YES_OPTION) {
+                if (!ff.delete()) System.exit(0);
+                if (!ff.createNewFile()) System.exit(0);
             } else {
                 System.exit(0);
             }
@@ -38,7 +37,7 @@ public class Main {
         var outJar = new JarOutputStream(new FileOutputStream(ff));
         AtomicBoolean modifiedFabric = new AtomicBoolean(false);
         appendEntries(jar, outJar, (original, name) -> {
-            if(!name.equals("fabric.mod.json"))
+            if (!name.equals("fabric.mod.json"))
                 return original;
             modifiedFabric.set(true);
             var text = new String(original);
@@ -50,7 +49,7 @@ public class Main {
             return text.getBytes();
         }, f);
 
-        if(!modifiedFabric.get()) {
+        if (!modifiedFabric.get()) {
             System.out.println("[ERROR] Isn't a fabric mod!?");
         }
 
@@ -58,7 +57,12 @@ public class Main {
         var fff = new JarFile(new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
         System.out.println("Asserting Injection Data: " + fff.getName());
 
-        appendEntries(fff, outJar, (original, name) -> original, new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
+        appendEntries(fff, outJar, (original, name) -> {
+            if(name.startsWith("META-INF"))
+                return null;
+
+            return original;
+        }, new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
 
         fff.close();
         outJar.close();
@@ -75,7 +79,7 @@ public class Main {
 
             var out = editor.edit(from.getInputStream(e).readAllBytes(), e.getName());
 
-            if(out != null) {
+            if (out != null) {
                 System.out.println("Mixing " + e.getName() + " to: " + from1.getName());
                 to.putNextEntry(e);
 
