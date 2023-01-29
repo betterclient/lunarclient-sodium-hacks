@@ -17,7 +17,7 @@ public class Main {
         }
         new ConsoleFrame(new FileWriter(logs));
 
-        var f = new File(System.getProperty("user.home") + "/.lunarclient/offline/multiver/Sodium_v1_19_2.jar");
+        var f = new File(System.getProperty("user.home") + "/.lunarclient/offline/multiver/Sodium_v1_19_3.jar");
         System.out.println("Found Sodium Jar" + f.getAbsolutePath());
         var jar = new JarFile(f);
 
@@ -68,6 +68,7 @@ public class Main {
         outJar.close();
         jar.close();
         System.out.println("Loading utility client done!");
+        ConsoleFrame.instance().writer.close();
         Thread.sleep(500);
         System.exit(0);
     }

@@ -9,10 +9,7 @@
     "conformVisibility": true
   },
   "client": [
-    "GameRendererMixin"
-  ],
-  "mixins": [
     "ConnectionMixin",
-    "MixinBlock"
+    "GameRendererMixin"
   ]
 }

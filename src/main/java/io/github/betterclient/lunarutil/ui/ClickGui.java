@@ -5,7 +5,10 @@ import io.github.betterclient.lunarutil.ModMan;
 import io.github.betterclient.lunarutil.mod.Module;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Blocks;
 
 import java.awt.*;
 
@@ -44,12 +47,12 @@ public class ClickGui extends Screen {
             this.minecraft.font.draw(poseStack, "Left Click To Toggle", 0, height - 20, -1);
             this.minecraft.font.draw(poseStack, "Middle Click To Select KeyBind", 0, height - 10, -1);
 
-            Gui.fill(poseStack, width / 2 - 150, height / 2 - 150, width / 2 + 150, height / 2 + 150, -1);
+            Gui.fill(poseStack, width / 2 - 50, height / 2 - 100, width / 2 + 50, height / 2 + 100, -1);
 
-            int y = height / 2 - 150;
+            int y = height / 2 - 100;
             for(Module mod : ModMan.getModules()) {
                 y+=13;
-                Gui.fill(poseStack, width / 2 - 150, y, width / 2 + 150, y + 10, mod.enabled ? modEnabledColor : modDisabledColor);
+                Gui.fill(poseStack, width / 2 - 50, y, width / 2 + 50, y + 10, mod.enabled ? modEnabledColor : modDisabledColor);
                 this.minecraft.font.draw(poseStack, mod.name, width / 2 - 40, y + 1, blackColor);
             }
         }
@@ -70,12 +73,12 @@ public class ClickGui extends Screen {
     @Override
     @SuppressWarnings("all")
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        int y = height / 2 - 150;
+        int y = height / 2 - 100;
         for(Module mod : ModMan.getModules()) {
             y+=13;
 
             if(mouseY >= y && mouseY <= (y + 10)) {
-                if(mouseX >= ((int)(width / 2 - 150)) && mouseX <= (width / 2 + 150)) {
+                if(mouseX >= ((int)(width / 2 - 50)) && mouseX <= (width / 2 + 50)) {
                     if(button == 0)
                         mod.toggle();
                     if(button == 2) {

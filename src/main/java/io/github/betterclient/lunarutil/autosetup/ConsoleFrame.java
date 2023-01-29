@@ -11,10 +11,15 @@ import static javax.swing.text.DefaultCaret.ALWAYS_UPDATE;
 public class ConsoleFrame extends JFrame {
     private static final long serialVersionUID = 1L;
 
+    private static ConsoleFrame fr;
+
     private JTextArea textArea = new JTextArea(15, 30);
     private Console taOutputStream = new Console(textArea);
+    public FileWriter writer;
 
     public ConsoleFrame(FileWriter fileWriter) {
+        this.writer = fileWriter;
+        fr = this;
         taOutputStream.setWriter(fileWriter);
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
@@ -29,5 +34,9 @@ public class ConsoleFrame extends JFrame {
         setLocationRelativeTo(null);
         setSize(1000, 500);
         setVisible(true);
+    }
+
+    public static ConsoleFrame instance() {
+        return fr;
     }
 }

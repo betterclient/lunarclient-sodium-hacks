@@ -31,8 +31,8 @@ public class InjectedClientMod implements ClientModInitializer, HudRenderCallbac
                 new TriggerBot(),
                 new CrystalOptimizer(),
                 new VanillaFly(),
-                new XRay(),
-                new Speed()
+                new Speed(),
+                new FastPlace()
         ));
 
         HudRenderCallback.EVENT.register(this);

@@ -24,6 +24,7 @@ public class TriggerBot extends Module implements HudRenderCallback{
 
     @Override
     public void onHudRender(PoseStack matrixStack, float tickDelta) {
+        Minecraft.getInstance().options.gamma().set(10000D);
         if(!this.enabled)
             return;
         Minecraft client = Minecraft.getInstance();
