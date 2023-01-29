@@ -3,7 +3,7 @@
 ## How does it work?
 
 It uses the [Override](https://support.lunarclient.com/support/solutions/articles/60000752051-third-party-mods) feature from the **official lunar** launcher without anything hacky.
-It just replaces the sodium module on lunar client 1.19.2 with the **~~hacks~~ utility mods.**
+It just replaces the sodium module on lunar client 1.19.3 with the **~~hacks~~ utility mods.**
 
 ## How use?
 
