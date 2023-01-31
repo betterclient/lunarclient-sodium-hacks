@@ -1,5 +1,7 @@
 # Lunar Client Sodium Hacks
 
+**DISCLAIMER: DON'T USE THIS ON SERVERS YOU DON'T HAVE PERMISSION IN, THIS IS ONLY FOR EDUCATIONAL PURPOSES.**
+
 ## How does it work?
 
 It uses the [Override](https://support.lunarclient.com/support/solutions/articles/60000752051-third-party-mods) feature from the **official lunar** launcher without anything hacky.
