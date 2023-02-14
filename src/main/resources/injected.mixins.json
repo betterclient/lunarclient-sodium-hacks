@@ -11,6 +11,7 @@
   "client": [
     "ConnectionMixin",
     "GameRendererMixin",
-    "KeyMappingMixin"
+    "KeyMappingMixin",
+    "AttributeInstanceMixin"
   ]
 }

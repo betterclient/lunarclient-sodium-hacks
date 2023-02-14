@@ -20,6 +20,10 @@ public class Module {
 
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
     public void toggle() {
         this.enabled = !this.enabled;
 

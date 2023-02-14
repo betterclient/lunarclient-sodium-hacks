@@ -7,15 +7,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ArmorStandItem;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class TriggerBot extends Module implements HudRenderCallback{
-
-    public Entity toHit;
 
     public TriggerBot() {
         super(0, "TriggerBot");
@@ -24,7 +22,6 @@ public class TriggerBot extends Module implements HudRenderCallback{
 
     @Override
     public void onHudRender(PoseStack matrixStack, float tickDelta) {
-        Minecraft.getInstance().options.gamma().set(10000D);
         if(!this.enabled)
             return;
         Minecraft client = Minecraft.getInstance();
@@ -32,16 +29,28 @@ public class TriggerBot extends Module implements HudRenderCallback{
         if(client.hitResult != null && client.player != null && client.player.getAttackStrengthScale(client.getDeltaFrameTime()) >= 1 && client.hitResult.getType() == HitResult.Type.ENTITY) {
             EntityHitResult hr = (EntityHitResult) client.hitResult;
             if(!(hr.getEntity() instanceof ItemEntity)) {
-                toHit = hr.getEntity();
+                new Timer().schedule(new TimerTask(hr.getEntity()), (long) (Math.random() * 30));
+            }
+        }
+    }
 
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        assert client.gameMode != null;
-                        client.gameMode.attack(client.player, toHit);
-                        client.player.swing(InteractionHand.MAIN_HAND);
-                    }
-                }, (long) (Math.random() * 30));
+    static class TimerTask extends java.util.TimerTask {
+        final Entity toHit;
+
+        TimerTask(Entity toHit) {
+            this.toHit = toHit;
+        }
+
+        @Override
+        public void run() {
+            Minecraft client = Minecraft.getInstance();
+            assert client.hitResult != null;
+
+            if(client.hitResult.getType() == HitResult.Type.ENTITY && ((EntityHitResult) client.hitResult).getEntity().equals(toHit)) {
+                assert client.gameMode != null;
+                assert client.player != null;
+                client.gameMode.attack(client.player, toHit);
+                client.player.swing(InteractionHand.MAIN_HAND);
             }
         }
     }
