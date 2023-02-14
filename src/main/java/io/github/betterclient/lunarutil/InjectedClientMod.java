@@ -1,8 +1,6 @@
 package io.github.betterclient.lunarutil;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
-import io.github.betterclient.lunarutil.mod.Module;
 import io.github.betterclient.lunarutil.mod.impl.*;
 import io.github.betterclient.lunarutil.ui.ClickGui;
 import net.fabricmc.api.ClientModInitializer;
@@ -40,12 +38,6 @@ public class InjectedClientMod implements ClientModInitializer, HudRenderCallbac
 
     @Override
     public void onHudRender(PoseStack matrixStack, float tickDelta) {
-        for(Module mod : ModMan.getModules()) {
-            if(InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), mod.key)) {
-                mod.toggle();
-            }
-        }
-
         if(map1.isDown()) {
             Minecraft.getInstance().setScreen(new ClickGui());
         }
