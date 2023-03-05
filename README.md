@@ -11,10 +11,6 @@ It just replaces the sodium module on lunar client 1.19.3 with the **~~hacks~~ u
 
 Launch the "sodium-util.jar" file and run lunar client with the sodium module!
 
-## Replay mod?
-
-Maybe :flirt: 
-
 ## How to build?
 
 Build this project using the `jar` task, don't use the build task as it remaps mc and we don't want that.
