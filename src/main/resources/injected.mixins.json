@@ -9,9 +9,12 @@
     "conformVisibility": true
   },
   "client": [
+    "AttributeInstanceMixin",
     "ConnectionMixin",
     "GameRendererMixin",
-    "KeyMappingMixin",
-    "AttributeInstanceMixin"
+    "KeyMappingMixin"
+  ],
+  "mixins": [
+    "EntityMixin"
   ]
 }

@@ -20,7 +20,7 @@ public class InjectedClientMod implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         instance = this;
-        KeyBindingHelper.registerKeyBinding(map1 = new KeyMapping("Open ClickGui", GLFW.GLFW_KEY_F9, "key.categories.gameplay") {
+        map1 = KeyBindingHelper.registerKeyBinding(new KeyMapping("Open ClickGui", GLFW.GLFW_KEY_F9, "key.categories.gameplay") {
             @Override
             public void setDown(boolean bl) {
                 if(bl)
@@ -38,7 +38,8 @@ public class InjectedClientMod implements ClientModInitializer {
                 new Speed(),
                 new FastPlace(),
                 new ModArrayList(),
-                new FPS()
+                new FPS(),
+                new HitBoxes()
         ));
     }
 }
